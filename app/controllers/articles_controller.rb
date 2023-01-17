@@ -3,7 +3,7 @@ class ArticlesController < ApplicationController
     @articles = Article.all
   end
 
-  def show
+  def show         
     @article = Article.find(params[:id])
   end
 
@@ -12,11 +12,13 @@ class ArticlesController < ApplicationController
   end
 
   def create
+
     @article = Article.new(article_params)
 
     if @article.save
       redirect_to @article
     else
+
       render :new, status: :unprocessable_entity
     end
   end
