@@ -1,9 +1,14 @@
+=begin
 class Article < ApplicationRecord
-  before_create :update_article_name
+  #before_create :update_article_name
  
   before_validation :remove_whitespaces
 
-  has_many:comments
+  # has_many:comments
+  has_many :comments, dependent: :destroy
+
+  before_validation :update_article_name
+  after_destroy :destroy_title
 
     #validates :title, presence: true
     # validates :title, format: { with: /\A[a-zA-Z]+\z/,
@@ -15,6 +20,7 @@ class Article < ApplicationRecord
   #  validates :title,uniqueness:{case_sensitive: false}  
      validates :title, presence: true
     validates :body, presence: true, length: { minimum: 10 }
+    
 
     def remove_whitespaces
       title.strip!
@@ -24,4 +30,15 @@ class Article < ApplicationRecord
     end
 
   end
+=end
+
+
+
+class Article < ApplicationRecord
+  include Visible
   
+  has_many :comments, dependent: :destroy
+  
+  validates :title, presence: true
+  validates :body, presence: true, length: { minimum: 10 }
+end
